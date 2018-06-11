@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	airtable "github.com/fabioberger/airtable-go"
+	airtable "github.com/crufter/airtable-go"
 )
 
 func ExampleNew() {

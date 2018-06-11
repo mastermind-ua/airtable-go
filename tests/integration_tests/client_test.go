@@ -3,9 +3,9 @@ package integrationTests
 import (
 	"testing"
 
-	airtable "github.com/fabioberger/airtable-go"
-	"github.com/fabioberger/airtable-go/tests/test_base"
-	"github.com/fabioberger/airtable-go/tests/test_configs"
+	airtable "github.com/crufter/airtable-go"
+	"github.com/crufter/airtable-go/tests/test_base"
+	"github.com/crufter/airtable-go/tests/test_configs"
 	. "gopkg.in/check.v1"
 )
 
