@@ -10,9 +10,9 @@ import (
 
 	. "gopkg.in/check.v1"
 
-	"github.com/mastermind-ua/airtable-go"
-	testBase "github.com/mastermind-ua/airtable-go/tests/test_base"
-	testConfigs "github.com/mastermind-ua/airtable-go/tests/test_configs"
+	"github.com/mastermind-ua/airtable-go/v3"
+	testBase "github.com/mastermind-ua/airtable-go/v3/tests/test_base"
+	testConfigs "github.com/mastermind-ua/airtable-go/v3/tests/test_configs"
 )
 
 func newFakeHTTPClient(statusCode int, filePath string) *http.Client {

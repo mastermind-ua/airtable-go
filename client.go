@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mastermind-ua/airtable-go/utils"
+	"github.com/mastermind-ua/airtable-go/v3/utils"
 )
 
 const majorAPIVersion = 0

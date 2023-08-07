@@ -1,4 +1,4 @@
-module github.com/mastermind-ua/airtable-go
+module github.com/mastermind-ua/airtable-go/v3
 
 go 1.20
 
