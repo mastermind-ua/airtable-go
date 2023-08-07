@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	airtable "github.com/crufter/airtable-go"
+	"github.com/mastermind-ua/airtable-go"
 )
 
 func ExampleNew() {
@@ -58,7 +58,7 @@ func ExampleClient_ListRecords() {
 		}
 	}
 
-	tasks := []task{}
+	var tasks []task
 	if err := client.ListRecords("TABLE_NAME", &tasks); err != nil {
 		panic(err)
 	}
@@ -127,14 +127,14 @@ func ExampleListParameters() {
 		FilterByFormula: "{Priority} < 2",
 		MaxRecords:      50,
 		Sort: []airtable.SortParameter{
-			airtable.SortParameter{
+			{
 				Field:          "Priority",
 				ShouldSortDesc: true,
 			},
 		},
 		View: "Main View",
 	}
-	tasks := []task{}
+	var tasks []task
 	if err := client.ListRecords("TABLE_NAME", &tasks, listParams); err != nil {
 		panic(err)
 	}
