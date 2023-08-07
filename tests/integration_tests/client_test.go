@@ -5,9 +5,9 @@ import (
 
 	. "gopkg.in/check.v1"
 
-	airtable "github.com/mastermind-ua/airtable-go"
-	"github.com/mastermind-ua/airtable-go/tests/test_base"
-	"github.com/mastermind-ua/airtable-go/tests/test_configs"
+	airtable "github.com/mastermind-ua/airtable-go/v3"
+	testBase "github.com/mastermind-ua/airtable-go/v3/tests/test_base"
+	testConfigs "github.com/mastermind-ua/airtable-go/v3/tests/test_configs"
 )
 
 func Test(t *testing.T) { TestingT(t) }
