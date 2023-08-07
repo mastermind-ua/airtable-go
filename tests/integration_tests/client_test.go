@@ -3,10 +3,11 @@ package integrationTests
 import (
 	"testing"
 
-	airtable "github.com/crufter/airtable-go"
-	"github.com/crufter/airtable-go/tests/test_base"
-	"github.com/crufter/airtable-go/tests/test_configs"
 	. "gopkg.in/check.v1"
+
+	airtable "github.com/mastermind-ua/airtable-go"
+	"github.com/mastermind-ua/airtable-go/tests/test_base"
+	"github.com/mastermind-ua/airtable-go/tests/test_configs"
 )
 
 func Test(t *testing.T) { TestingT(t) }
@@ -26,14 +27,14 @@ func (s *ClientSuite) SetUpSuite(c *C) {
 }
 
 func (s *ClientSuite) TestListTeammateRecords(c *C) {
-	teamMates := []testBase.TeamMate{}
+	var teamMates []testBase.TeamMate
 	err := client.ListRecords(testBase.TeamMatesTableName, &teamMates)
 	c.Assert(err, Equals, nil)
 	c.Assert(len(teamMates), Equals, 9)
 }
 
 func (s *ClientSuite) TestRetrieveRecord(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	client.ListRecords(testBase.TasksTableName, &tasks)
 	t := tasks[0]
 
@@ -53,7 +54,7 @@ func (s *ClientSuite) TestCreateAndDestroyRecord(c *C) {
 }
 
 func (s *ClientSuite) TestUpdateRecord(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParams := airtable.ListParameters{
 		FilterByFormula: "{Name} = \"Design Tea Packaging\"",
 	}
@@ -79,7 +80,7 @@ func (s *ClientSuite) TestUpdateRecord(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsRequiringMultipleRequests(c *C) {
-	logs := []testBase.Log{}
+	var logs []testBase.Log
 	if err := client.ListRecords(testBase.LogTableName, &logs); err != nil {
 		c.Error(err)
 	}
@@ -87,7 +88,7 @@ func (s *ClientSuite) TestListRecordsRequiringMultipleRequests(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsInSpecificView(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParameters := airtable.ListParameters{
 		View: "Tea Packaging Tasks",
 	}
@@ -97,7 +98,7 @@ func (s *ClientSuite) TestListRecordsInSpecificView(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsUsingFilterByFormula(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParameters := airtable.ListParameters{
 		FilterByFormula: "{Time Estimate (days)} > 2",
 	}
@@ -107,10 +108,10 @@ func (s *ClientSuite) TestListRecordsUsingFilterByFormula(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsWithASortedOrder(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParameters := airtable.ListParameters{
 		Sort: []airtable.SortParameter{
-			airtable.SortParameter{
+			{
 				Field:          "Time Estimate (days)",
 				ShouldSortDesc: false,
 			},
@@ -124,7 +125,7 @@ func (s *ClientSuite) TestListRecordsWithASortedOrder(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsWithSpecifiedMaxRecords(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParameters := airtable.ListParameters{
 		MaxRecords: 1,
 	}
@@ -134,7 +135,7 @@ func (s *ClientSuite) TestListRecordsWithSpecifiedMaxRecords(c *C) {
 }
 
 func (s *ClientSuite) TestListRecordsWithSpecifiedFields(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	listParameters := airtable.ListParameters{
 		Fields: []string{"Time Estimate (days)"},
 	}

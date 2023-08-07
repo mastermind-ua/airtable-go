@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 	"reflect"
@@ -12,7 +12,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/crufter/airtable-go/utils"
+	"github.com/mastermind-ua/airtable-go/utils"
 )
 
 const majorAPIVersion = 0
@@ -40,8 +40,8 @@ func New(apiKey, baseID string) (*Client, error) {
 	}
 
 	c := Client{
-		apiKey: apiKey,
-		baseID: baseID,
+		apiKey:                   apiKey,
+		baseID:                   baseID,
 		ShouldRetryIfRateLimited: true,
 		HTTPClient:               http.DefaultClient,
 	}
@@ -133,7 +133,7 @@ func (c *Client) RetrieveRecord(tableName string, recordID string, recordHolder 
 }
 
 // CreateRecord creates a new record in an Airtable table and updates the `record` struct with the created
-// records field values i.e fields with default values would be populated as well as AirtableID with the
+// records field values i.e. fields with default values would be populated as well as AirtableID with the
 // record's id.
 func (c *Client) CreateRecord(tableName string, record interface{}) error {
 	endpoint := fmt.Sprintf("%s/%s/%s", apiBaseURL, c.baseID, tableName)
@@ -204,7 +204,7 @@ func (c *Client) request(method string, endpoint string, body interface{}) (rawB
 	}
 	defer resp.Body.Close()
 	statusCode := resp.StatusCode
-	rawBody, err = ioutil.ReadAll(resp.Body)
+	rawBody, err = io.ReadAll(resp.Body)
 	if err != nil {
 		return []byte{}, err
 	}
@@ -234,7 +234,7 @@ func (c *Client) requestWithBody(method string, endpoint string, body interface{
 	return req, nil
 }
 
-// ListParameters let's the caller describe the parameters he want's sent with a ListRecords request
+// ListParameters lets the caller describe the parameters he wants to send with a ListRecords request
 // See the documentation at https://airtable.com/api for more information on how to use these parameters
 type ListParameters struct {
 	Fields          []string
@@ -378,4 +378,3 @@ func checkStatusCodeForError(statusCode int, rawBody []byte) error {
 	}
 	return nil
 }
-

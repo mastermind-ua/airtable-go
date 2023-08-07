@@ -2,15 +2,17 @@ package stubbedTests
 
 import (
 	"bytes"
-	"io/ioutil"
+	"io"
 	"net/http"
+	"os"
 	"testing"
 	"time"
 
-	airtable "github.com/crufter/airtable-go"
-	"github.com/crufter/airtable-go/tests/test_base"
-	"github.com/crufter/airtable-go/tests/test_configs"
 	. "gopkg.in/check.v1"
+
+	"github.com/mastermind-ua/airtable-go"
+	testBase "github.com/mastermind-ua/airtable-go/tests/test_base"
+	testConfigs "github.com/mastermind-ua/airtable-go/tests/test_configs"
 )
 
 func newFakeHTTPClient(statusCode int, filePath string) *http.Client {
@@ -28,12 +30,12 @@ type fileRoundTripper struct {
 }
 
 func (f fileRoundTripper) RoundTrip(*http.Request) (*http.Response, error) {
-	rawResponse, err := ioutil.ReadFile(f.filePath)
+	rawResponse, err := os.ReadFile(f.filePath)
 	if err != nil {
 		return nil, err
 	}
 	httpResponse := &http.Response{
-		Body:       ioutil.NopCloser(bytes.NewReader(rawResponse)),
+		Body:       io.NopCloser(bytes.NewReader(rawResponse)),
 		StatusCode: f.statusCode,
 	}
 	return httpResponse, nil
@@ -62,13 +64,13 @@ func (s *ClientSuite) TearDownTest(c *C) {
 }
 
 func (s *ClientSuite) TestListRecords(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	client.HTTPClient = newFakeHTTPClient(200, "../test_responses/list_tasks.json")
 	err := client.ListRecords(testBase.TasksTableName, &tasks)
 	c.Assert(err, Equals, nil)
 	c.Assert(len(tasks), Equals, 3)
 
-	tasks2 := []testBase.Task{}
+	var tasks2 []testBase.Task
 	client.HTTPClient = newFakeHTTPClient(200, "../test_responses/list_tasks_2.json")
 	err = client.ListRecords(testBase.TasksTableName, &tasks2)
 	c.Assert(err, Equals, nil)
@@ -76,7 +78,7 @@ func (s *ClientSuite) TestListRecords(c *C) {
 }
 
 func (s *ClientSuite) TestAirtableError(c *C) {
-	tasks := []testBase.Task{}
+	var tasks []testBase.Task
 	client.HTTPClient = newFakeHTTPClient(404, "../test_responses/404_error.json")
 	err := client.ListRecords(testBase.TasksTableName, &tasks)
 	c.Assert(err.Error(), Equals, "NOT_FOUND: Could not find table x in application appmUJMUx1SyZYQYX [HTTP code 404]")

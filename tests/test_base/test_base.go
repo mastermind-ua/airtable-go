@@ -3,7 +3,9 @@
 // tables
 package testBase
 
-import airtable "github.com/crufter/airtable-go"
+import (
+	"github.com/mastermind-ua/airtable-go"
+)
 
 var (
 	// TasksTableName is the name of the Airtable table containing Task records
